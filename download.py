@@ -13,13 +13,15 @@ class URLEmpty(Exception):
 class InvalidParam(Exception):
     pass
 
-def dload(reqobj):
+def dload(reqobj, fln):
     if isinstance(reqobj, RequestObject):
         if reqobj.durl != None:
             rOb = urllib.request.Request(reqobj.durl)
             resobj = urllib.request.urlopen(rOb)
+            with open(fln, 'wb') as fl:
+                fl.write(resobj.read())
         else:
-            raise URLEmpty("Given URL is none")
+            raise URLEmpty("Given URL is empty")
     else:
         raise InvalidParam("Parameter is not a class (RequestObject)")
 
