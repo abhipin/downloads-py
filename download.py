@@ -1,30 +1,19 @@
 
 import urllib.request
-from html.parser import HTMLParser
+import http.client as HTTP
+
 
 class RequestObject():
-    durl = None
-    method = "GET"
+    isHTTPurl = True
+    dUrl = None
+    LogErrors = False
 
+def Log(txt):
+    fl = open("demofile.txt", "w")
+    fl.write(txt)
+    fl.close()
 
-HTMLINDN = 0
-
-class HTMLParse(HTMLParser):
-    global HTMLINDN
-    def handle_starttag(self, tag, attrs):
-        self.HTMLINDN += 1
-
-    def handle_endtag(self, tag):
-        self.HTMLINDN -= 1
-
-    def handle_data(self, data):
-        print("yes")
-        print(('    '*self.HTMLINDN)+str(list(data).insert(0, '<').append('>')))
-
-class ModuleSettings():
-    showprg = False
-
-# Errors
+# Error classes
 
 class URLEmpty(Exception):
     pass
@@ -32,23 +21,33 @@ class URLEmpty(Exception):
 class InvalidParam(Exception):
     pass
 
-def dload(reqobj, fln):
+class ConnectionFail(Exception):
+    pass
+
+class ImproperResponse(Exception):
+    Log(Exception)
+    pass
+
+def Download(reqobj, fln, ds=""):
     if isinstance(reqobj, RequestObject):
-        if reqobj.durl != None:
-            rOb = urllib.request.Request(reqobj.durl)
-            resobj = urllib.request.urlopen(rOb)
+        if reqobj.dUrl != None:
+            rOb = urllib.request.Request(reqobj.dUrl)
+
+            try:
+                resobj = urllib.request.urlopen(rOb)
+            except HTTP.RemoteDisconnected:
+                raise ConnectionFail("Connection was closed by the server.")
+            except HTTP.BadStatusLine:
+                raise ConnectionFail("Unable to understand response code.")
+            except HTTP.LineTooLong:
+                raise ImproperResponse("Server returned a extremely large response.")
+            
             with open(fln, 'wb') as fl:
-                resread = resobj.read()
-                extension = fln.split('.')[1]
-                if extension == "html":
-                    print('yes')
-                    parser = HTMLParse()
-                    parser.feed(str(resobj.read())[17:])
-                fl.write(resread)
+                fl.write(resobj.read())
         else:
             raise URLEmpty("Given URL is empty")
     else:
-        raise InvalidParam("Parameter is not a class (RequestObject)")
+        raise InvalidParam("Parameter is not the class object RequestObject")
 
 
 
