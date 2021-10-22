@@ -6,7 +6,8 @@ import download
 request = download.RequestObject()
 
 #set durl to the url that you want to download
-request.duUl = "https://www.google.com"
+request.dUrl = "https://www.google.com"
+request.LogErrors = True
 
 #call dload() to download
-download.dload(request, "test.html")
+download.Download(request, "test.html")
