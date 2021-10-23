@@ -1,4 +1,3 @@
-from os import read
 import urllib.request
 import http.client as HTTP
 import socket
@@ -9,26 +8,19 @@ import urllib.error as ErrReq
 LOGPATH = None
 
 
-class RequestObject():
+class Request():
     isHTTPurl = True
     dUrl = None
     LogErrors = False
 
-class ResponseObject():
+
+
+class Response():
     pSHA512 = ""
+    pSHA1 = ""
+    pSHA224 = ""
+    pSHA256 = ""
     
-
-
-def Log(rqob,txt):
-    global LOGPATH
-    if LOGPATH == None:
-        LOGPATH = ""
-    if rqob.LogErrors != True:
-        return "LogErrors not enabled"
-    fl = open(LOGPATH+"log.txt", "a")
-    print(LOGPATH+"log.txt")
-    fl.write(str(time.time()).split('.')[0] + ": " + txt + "\n")
-    fl.close()
 
 # Error classes
 
@@ -45,6 +37,17 @@ class ImproperResponse(Exception):
     pass
 
 # Functions
+
+def Log(rqob,txt):
+    global LOGPATH
+    if LOGPATH == None:
+        LOGPATH = ""
+    if rqob.LogErrors != True:
+        return "LogErrors not enabled"
+    fl = open(LOGPATH+"log.txt", "a")
+    print(LOGPATH+"log.txt")
+    fl.write(str(time.time()).split('.')[0] + ": " + txt + "\n")
+    fl.close()
 
 def Download(reqobj, fln, ds=""):
     if isinstance(reqobj, RequestObject):
@@ -72,6 +75,9 @@ def Download(reqobj, fln, ds=""):
                 fl.write(readbytes)
             rp = ResponseObject()
             rp.pSHA512 = hashlib.sha512(readbytes).hexdigest()
+            rp.pSHA1 = hashlib.sha1(readbytes).hexdigest()
+            rp.pSHA224 = hashlib.sha224(readbytes).hexdigest()
+            rp.pSHA256 = hashlib.sha256(readbytes).hexdigest()
             return rp
         else:
             raise URLEmpty("Given URL is empty")
@@ -82,7 +88,7 @@ def SetLogPath(path):
     global LOGPATH
     newstr = path
     print(path)
-    if path.endswith("/") != True: 
+    if path.endswith("/") != True and path.endswith("\\") != True: 
         newstr = list(path)
         newstr.append('/')
         newstr = ''.join(newstr)
