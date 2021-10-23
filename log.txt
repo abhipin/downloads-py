@@ -1,0 +1,13 @@
+1634881091: Connection established at https://www.google.com
+1634881101: Connection established at https://www.google.com
+1634886418: Connection established with https://winproc.github.io/me.github.io
+1634886700: Connection established with https://winproc.github.io/me.github.io
+1634886987: ConnectionFail:URLError > Failed to connect to the specified Host. You may not be connected to the internet.
+1634887220: ConnectionFail:URLError > Failed to connect to the specified Host. You may not be connected to the internet.
+1634887243: Connection established with https://winproc.github.io/me.github.io
+1634972559: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
+1634972577: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
+1634974074: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
+1634977753: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
+1634977899: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
+1634978124: Connection established with https://winproc.github.io/me.github.io, Host IP: 185.199.108.153
