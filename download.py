@@ -50,7 +50,7 @@ def Log(rqob,txt):
     fl.close()
 
 def Download(reqobj, fln, ds=""):
-    if isinstance(reqobj, RequestObject):
+    if isinstance(reqobj, Request):
         if reqobj.dUrl != None:
             rOb = urllib.request.Request(reqobj.dUrl)
             # Send request
@@ -73,7 +73,7 @@ def Download(reqobj, fln, ds=""):
             readbytes = resobj.read()
             with open(ds+fln, 'wb') as fl:
                 fl.write(readbytes)
-            rp = ResponseObject()
+            rp = Response()
             rp.pSHA512 = hashlib.sha512(readbytes).hexdigest()
             rp.pSHA1 = hashlib.sha1(readbytes).hexdigest()
             rp.pSHA224 = hashlib.sha224(readbytes).hexdigest()
